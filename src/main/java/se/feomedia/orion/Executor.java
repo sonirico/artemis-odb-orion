@@ -46,6 +46,19 @@ public abstract class Executor<T extends Operation> {
 			operation.started = true;
 		}
 
-		return act(delta, (T) operation, node);
+		float dt = act(delta, (T) operation, node);
+
+        if (operation.isComplete())
+            end((T) operation, node);
+
+        return dt;
 	}
+
+    /**
+     * Called when the operation is finished.
+     *
+     * @param operation Current operation.
+     * @param node Current node, hosting the operation.
+     */
+    protected void end(T operation, OperationTree node) {}
 }
